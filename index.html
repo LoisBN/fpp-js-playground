@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Playground - JavaScript Fundamentals</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #4ec9b0;
+            border-bottom: 2px solid #4ec9b0;
+            padding-bottom: 10px;
+        }
+        .info {
+            background-color: #252526;
+            border-left: 4px solid #4ec9b0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .console-output {
+            background-color: #1e1e1e;
+            border: 1px solid #4ec9b0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .console-output pre {
+            margin: 0;
+            color: #4ec9b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JS Playground - JavaScript Fundamentals</h1>
+        
+        <div class="info">
+            <h2>Welcome!</h2>
+            <p>This is your JavaScript playground. Open the browser console to see the output of your code.</p>
+            <p><strong>To see results:</strong> Press <code>F12</code> or <code>Ctrl+Shift+I</code> (Windows/Linux) or <code>Cmd+Option+I</code> (Mac) to open Developer Tools and check the Console tab.</p>
+        </div>
+
+        <div class="info">
+            <h2>What You'll Learn</h2>
+            <ul>
+                <li>Declare and use variables (const, let, var)</li>
+                <li>Write and call functions</li>
+                <li>Work with arrays and array methods (.map(), .filter(), .forEach())</li>
+                <li>Work with objects and their properties</li>
+                <li>Build a mini task tracker application</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h2>TODOs in Your Code</h2>
+            <p>Open <code>playground.js</code> and look for TODO comments. Complete each one to make the task tracker work!</p>
+            <p>The console below will show the output once you run your code.</p>
+        </div>
+
+        <div class="console-output">
+            <pre id="console">Loading playground.js...</pre>
+        </div>
+    </div>
+
+    <script src="playground.js"></script>
+    <script>
+        // Capture console.log output to display on the page
+        const logOutput = [];
+        const originalLog = console.log;
+        
+        console.log = function(...args) {
+            logOutput.push(args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' '));
+            
+            // Also show in browser console
+            originalLog.apply(console, args);
+        };
+
+        // Update the page with all logged output
+        setTimeout(() => {
+            document.getElementById('console').textContent = logOutput.join('\n');
+        }, 100);
+    </script>
+</body>
+</html>
