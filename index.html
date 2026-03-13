@@ -81,6 +81,93 @@
       .layout { grid-template-columns: 1fr; }
     }
 
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        text-align: center;
+      }
+      header h1 { font-size: 1.2rem; }
+      header p { font-size: 0.85rem; }
+      .mission-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+      }
+      .code-block code {
+        font-size: 0.78rem;
+      }
+      .spotlight {
+        margin: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 12px 16px;
+      }
+      header h1 { font-size: 1.1rem; }
+      .layout {
+        padding: 0 12px;
+        margin: 16px auto;
+        gap: 16px;
+      }
+      .input-row {
+        flex-direction: column;
+      }
+      .input-row input {
+        width: 100%;
+      }
+      .input-row button {
+        width: 100%;
+        padding: 12px 20px;
+      }
+      .tracker-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .filters {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .filter-btn {
+        flex: 1;
+        text-align: center;
+        padding: 6px 8px;
+      }
+      .mission-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+      }
+      .mission {
+        padding: 10px 14px;
+        gap: 10px;
+      }
+      .mission-info strong {
+        font-size: 0.85rem;
+      }
+      .code-block {
+        padding: 12px;
+        border-radius: 6px;
+      }
+      .code-block code {
+        font-size: 0.75rem;
+      }
+      .spotlight {
+        margin: 12px;
+      }
+      .spotlight-desc {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+      }
+      .annotation {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
     .card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -252,7 +339,7 @@
 
     .spotlight {
       margin: 24px;
-      margin-top: 0;
+      margin-top: 16px;
     }
 
     .spotlight-section {
@@ -269,6 +356,7 @@
       font-size: 0.88rem;
       margin-bottom: 12px;
       line-height: 1.5;
+      max-width: 65ch;
     }
     .spotlight-desc strong { color: var(--primary); }
 
@@ -314,14 +402,53 @@
     }
 
     .claude-prompt {
-      padding: 12px 14px;
-      background: #fffbeb;
-      border: 1px dashed #f59e0b;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      margin-top: 12px;
+      padding: 16px 18px;
+      padding-top: 20px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
     }
-    .claude-prompt strong { color: #d97706; }
+    .claude-prompt::before {
+      content: "Claude Code";
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      background: #f59e0b;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .claude-prompt strong {
+      display: block;
+      color: #92400e;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    .claude-prompt .prompt-text {
+      background: rgba(255,255,255,0.8);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #1e293b;
+      line-height: 1.5;
+      user-select: all;
+      cursor: text;
+    }
+    .claude-prompt .copy-hint {
+      font-size: 0.75rem;
+      color: #92400e;
+      margin-top: 8px;
+      opacity: 0.8;
+    }
     .claude-prompt code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.82rem;
@@ -352,6 +479,84 @@
     }
     .check-result.pass { display: block; background: var(--success-light); color: #166534; }
     .check-result.fail { display: block; background: #fef2f2; color: #991b1b; }
+
+    .claude-tip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .claude-tip kbd {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .learn-more {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .learn-more-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.15s;
+      text-align: left;
+    }
+    .learn-more-toggle:hover {
+      background: var(--border);
+    }
+    .learn-more-toggle::after {
+      content: "+";
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .learn-more.open .learn-more-toggle::after {
+      content: "-";
+    }
+    .learn-more-content {
+      display: none;
+      padding: 14px;
+      background: white;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .learn-more.open .learn-more-content {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    .learn-more-content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: var(--bg);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
   </style>
 </head>
 <body>
@@ -405,6 +610,28 @@
             <span style="background:var(--primary-light);padding:6px 12px;border-radius:6px">🖥️ Screen updates</span>
           </div>
           <p style="color:var(--text-muted)">When you add a task, the data changes. Then <code style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;background:var(--bg);padding:1px 4px;border-radius:3px">renderTasks()</code> reads the data and redraws the list. That's it!</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;border-color:#f59e0b;border-width:2px">
+        <div class="card-header" style="background:linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);border-bottom-color:#f59e0b">
+          <span style="font-size:1.1rem">✨</span> Using Claude Code
+        </div>
+        <div style="padding:16px 20px;font-size:0.88rem;line-height:1.6">
+          <p style="margin-bottom:12px"><strong>Claude Code helps you learn by doing.</strong> Instead of copying code, you describe what you want in plain English.</p>
+          <ul style="margin:0;padding-left:20px;color:var(--text-muted)">
+            <li>Explains each line it writes</li>
+            <li>Answers your follow-up questions</li>
+            <li>Catches mistakes early</li>
+            <li>Teaches you patterns along the way</li>
+          </ul>
+          <div style="margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:6px;font-size:0.82rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span>Open with</span>
+            <kbd style="background:white;border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;box-shadow:0 1px 2px rgba(0,0,0,0.1)">Cmd</kbd>
+            <span>+</span>
+            <kbd style="background:white;border:1px solid var(--border);border-radius:4px;padding:2px 6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;box-shadow:0 1px 2px rgba(0,0,0,0.1)">K</kbd>
+            <span>in VS Code</span>
+          </div>
         </div>
       </div>
     </div>
@@ -481,7 +708,16 @@
 <span class="code-line">  { <span class="code-target">id</span>: <span class="code-number">1</span>, <span class="code-target">title</span>: <span class="code-string">"Read Section 1"</span>, <span class="code-target">completed</span>: <span class="code-keyword">true</span> },</span>
 <span class="code-line">  { <span class="code-target">id</span>: <span class="code-number">2</span>, <span class="code-target">title</span>: <span class="code-string">"Read Section 2"</span>, <span class="code-target">completed</span>: <span class="code-keyword">false</span> },</span>
 <span class="code-line">];</span></code></div>
-            <p style="font-size:0.85rem;color:var(--text-muted)">Once you've read all 3 sections, click the button below!</p>
+            <div class="claude-tip">
+              <span>Pro tip: Open Claude Code with</span>
+              <kbd>Cmd</kbd><span>+</span><kbd>K</kbd>
+              <span>in VS Code to get help anytime!</span>
+            </div>
+            <div class="annotation" style="margin-top:12px;border-left-color:var(--warning)">
+              <div class="label" style="color:var(--warning)">Important</div>
+              After you edit <code>playground.js</code>, <strong>refresh this page</strong> to see your changes take effect!
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-top:12px">Once you've read all 3 sections, click the button below!</p>
             <button class="check-btn" onclick="completeMission(0)">✅ I've read the code!</button>
           </div>
 
@@ -497,7 +733,15 @@
               4. Clear the input<br>
               5. Call <code>renderTasks()</code>
             </div>
-            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">addTask</span>() {</span>
+            <div class="claude-prompt">
+              <strong>Try this with Claude Code first!</strong>
+              <div class="prompt-text">Fill in the addTask() function in playground.js. It should get text from the input with id 'task-input', if empty return, otherwise push a new task to the tasks array and call renderTasks().</div>
+              <div class="copy-hint">Copy this prompt and paste it into Claude Code. Then check the solution below!</div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Show the solution</button>
+              <div class="learn-more-content">
+                <div class="code-block" style="margin-bottom:12px"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">addTask</span>() {</span>
 <span class="code-line">  <span class="code-comment">// Step 1: Find the input box and get its text</span></span>
 <span class="code-line">  <span class="code-keyword">const</span> input = document.<span class="code-function">getElementById</span>(<span class="code-string">"task-input"</span>);</span>
 <span class="code-line">  <span class="code-keyword">const</span> text = input.value.<span class="code-function">trim</span>();</span>
@@ -514,15 +758,32 @@
 <span class="code-line">  <span class="code-comment">// Step 5: Refresh the screen</span></span>
 <span class="code-line">  <span class="code-function">renderTasks</span>();</span>
 <span class="code-line">}</span></code></div>
-            <div class="annotation">
-              <div class="label">📖 Line by line</div>
-              <code>document.getElementById("task-input")</code> — finds the text box on the page<br>
-              <code>.value.trim()</code> — gets the typed text and removes extra spaces<br>
-              <code>tasks.push({...})</code> — adds a new item to the end of the array<br>
-              <code>nextId++</code> — uses the current number, then adds 1 for next time
+                <div class="annotation" style="margin:0">
+                  <div class="label">📖 Line by line</div>
+                  <strong style="color:var(--text)">document</strong> = the web page itself. It's how JavaScript "sees" and interacts with HTML.<br><br>
+                  <code>document.getElementById("task-input")</code><br>
+                  → "Hey document, find me the element with <code>id="task-input"</code>"<br>
+                  → Returns the input box so we can read what the user typed<br><br>
+                  <code>.value</code> → the text currently inside the input box<br>
+                  <code>.trim()</code> → removes spaces from start/end (so "  hello  " becomes "hello")<br><br>
+                  <code>tasks.push({...})</code> → adds a new object to the end of the tasks array<br>
+                  <code>nextId++</code> → uses the number, then increases it by 1 for next time
+                </div>
+              </div>
             </div>
-            <div class="claude-prompt">
-              <strong>💬 Ask Claude:</strong> "Write the addTask function in playground.js. It should get text from the input with id 'task-input', if empty return, otherwise push a new task to the tasks array and call renderTasks()."
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Pattern: if statement (early return)</button>
+              <div class="learn-more-content">
+                <code>if (condition) return;</code> is a common pattern. It says "stop here if something is wrong" — like checking if the input is empty before adding a task.
+                <div class="code-block" style="margin-top:8px;margin-bottom:0"><code><span class="code-line"><span class="code-keyword">if</span> (text === <span class="code-string">""</span>) <span class="code-keyword">return</span>;  <span class="code-comment">// Stop if empty</span></span></code></div>
+              </div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Data type: Object { }</button>
+              <div class="learn-more-content">
+                An <strong>object</strong> is a container with labeled values. Each task is an object with <code>id</code>, <code>title</code>, and <code>completed</code>. You create objects with curly braces <code>{ }</code>.
+                <div class="code-block" style="margin-top:8px;margin-bottom:0"><code><span class="code-line">{ <span class="code-target">id</span>: <span class="code-number">1</span>, <span class="code-target">title</span>: <span class="code-string">"Buy milk"</span>, <span class="code-target">completed</span>: <span class="code-keyword">false</span> }</span></code></div>
+              </div>
             </div>
             <button class="check-btn" onclick="checkMission(1)">✅ Check my work</button>
             <div class="check-result" id="result-1"></div>
@@ -538,7 +799,15 @@
               2. Flip its completed status<br>
               3. Call <code>renderTasks()</code>
             </div>
-            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">toggleTask</span>(<span class="code-target">id</span>) {</span>
+            <div class="claude-prompt">
+              <strong>Try this with Claude Code first!</strong>
+              <div class="prompt-text">Fill in the toggleTask(id) function in playground.js. It should find the task by id in the tasks array, flip task.completed, and call renderTasks().</div>
+              <div class="copy-hint">Copy this prompt and paste it into Claude Code. Then check the solution below!</div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Show the solution</button>
+              <div class="learn-more-content">
+                <div class="code-block" style="margin-bottom:12px"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">toggleTask</span>(<span class="code-target">id</span>) {</span>
 <span class="code-line">  <span class="code-comment">// Find the task with this id</span></span>
 <span class="code-line">  <span class="code-keyword">const</span> task = tasks.<span class="code-function">find</span>(t => t.id === id);</span>
 <span class="code-line"></span>
@@ -547,13 +816,40 @@
 <span class="code-line"></span>
 <span class="code-line">  <span class="code-function">renderTasks</span>();</span>
 <span class="code-line">}</span></code></div>
-            <div class="annotation">
-              <div class="label">📖 Line by line</div>
-              <code>tasks.find(t => t.id === id)</code> — searches the array for the task whose id matches<br>
-              <code>!task.completed</code> — the <code>!</code> means "not". If it was <code>true</code>, it becomes <code>false</code>, and vice versa
+                <div class="annotation" style="margin:0">
+                  <div class="label">📖 Line by line</div>
+                  <code>tasks.find(t => t.id === id)</code><br>
+                  → Searches through the <code>tasks</code> array<br>
+                  → <code>t => t.id === id</code> is a mini-function that checks: "does this task's id match?"<br>
+                  → Returns the first task that matches<br><br>
+                  <code>task.completed = !task.completed</code><br>
+                  → <code>!</code> means "not" — it flips the value<br>
+                  → If it was <code>true</code>, it becomes <code>false</code>. If <code>false</code>, becomes <code>true</code>.
+                </div>
+              </div>
             </div>
-            <div class="claude-prompt">
-              <strong>💬 Ask Claude:</strong> "Write a toggleTask(id) function that finds the task by id in the tasks array, flips task.completed, and calls renderTasks()."
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Data type: Boolean (true/false)</button>
+              <div class="learn-more-content">
+                A <strong>boolean</strong> is either <code>true</code> or <code>false</code>. The <code>completed</code> property uses a boolean to track if a task is done or not.
+                <div style="display:flex;gap:12px;font-size:0.82rem;font-family:'JetBrains Mono',monospace;margin-top:8px">
+                  <div style="flex:1;background:var(--success-light);padding:8px;border-radius:6px;text-align:center">
+                    <div style="color:var(--success);font-weight:600">true</div>
+                    <div style="color:var(--text-muted);font-family:Inter,sans-serif;font-size:0.8rem">Task is done</div>
+                  </div>
+                  <div style="flex:1;background:var(--bg);padding:8px;border-radius:6px;text-align:center">
+                    <div style="color:var(--text-muted);font-weight:600">false</div>
+                    <div style="color:var(--text-muted);font-family:Inter,sans-serif;font-size:0.8rem">Task is not done</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Pattern: Flipping a boolean with !</button>
+              <div class="learn-more-content">
+                The <code>!</code> operator flips a boolean. <code>!true</code> becomes <code>false</code>, and <code>!false</code> becomes <code>true</code>. Perfect for toggling!
+                <div class="code-block" style="margin-top:8px;margin-bottom:0"><code><span class="code-line">task.completed = !task.completed;  <span class="code-comment">// Flip it!</span></span></code></div>
+              </div>
             </div>
             <button class="check-btn" onclick="checkMission(2)">✅ Check my work</button>
             <div class="check-result" id="result-2"></div>
@@ -569,7 +865,15 @@
               2. Remove it<br>
               3. Call <code>renderTasks()</code>
             </div>
-            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">deleteTask</span>(<span class="code-target">id</span>) {</span>
+            <div class="claude-prompt">
+              <strong>Try this with Claude Code first!</strong>
+              <div class="prompt-text">Fill in the deleteTask(id) function in playground.js. It should find the index of the task with that id using findIndex, remove it with splice, and call renderTasks().</div>
+              <div class="copy-hint">Copy this prompt and paste it into Claude Code. Then check the solution below!</div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Show the solution</button>
+              <div class="learn-more-content">
+                <div class="code-block" style="margin-bottom:12px"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">deleteTask</span>(<span class="code-target">id</span>) {</span>
 <span class="code-line">  <span class="code-comment">// Find the position (index) of this task</span></span>
 <span class="code-line">  <span class="code-keyword">const</span> index = tasks.<span class="code-function">findIndex</span>(t => t.id === id);</span>
 <span class="code-line"></span>
@@ -578,13 +882,45 @@
 <span class="code-line"></span>
 <span class="code-line">  <span class="code-function">renderTasks</span>();</span>
 <span class="code-line">}</span></code></div>
-            <div class="annotation">
-              <div class="label">📖 Line by line</div>
-              <code>tasks.findIndex(t => t.id === id)</code> — like <code>find()</code>, but returns the position number (0, 1, 2...) instead of the task itself<br>
-              <code>tasks.splice(index, 1)</code> — removes 1 item at that position. Think of it like pulling a card out of a deck.
+                <div class="annotation" style="margin:0">
+                  <div class="label">📖 Line by line</div>
+                  <code>tasks.findIndex(t => t.id === id)</code><br>
+                  → Like <code>find()</code>, but returns the <strong>position number</strong> (0, 1, 2...)<br>
+                  → We need the position to remove the item<br><br>
+                  <code>tasks.splice(index, 1)</code><br>
+                  → <code>splice(where, howMany)</code> removes items from an array<br>
+                  → <code>index</code> = start at this position<br>
+                  → <code>1</code> = remove 1 item<br>
+                  → Think of it like pulling a card out of a deck
+                </div>
+              </div>
             </div>
-            <div class="claude-prompt">
-              <strong>💬 Ask Claude:</strong> "Write a deleteTask(id) function that finds the index of the task with that id using findIndex, removes it with splice, and calls renderTasks()."
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Data type: Array [ ]</button>
+              <div class="learn-more-content">
+                An <strong>array</strong> is a list of items. The <code>tasks</code> variable is an array that holds all your task objects. Arrays use square brackets <code>[ ]</code>.
+                <div class="code-block" style="margin-top:8px;margin-bottom:0"><code><span class="code-line"><span class="code-keyword">const</span> tasks = [ task1, task2, task3 ];  <span class="code-comment">// A list!</span></span></code></div>
+              </div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Pattern: Index (position in array)</button>
+              <div class="learn-more-content">
+                Arrays count from <strong>0</strong>, not 1. The first item is at index 0, the second at index 1, etc. To remove an item, you need to know its position.
+                <div style="display:flex;gap:4px;font-size:0.82rem;font-family:'JetBrains Mono',monospace;margin-top:8px;justify-content:center">
+                  <div style="background:var(--bg);padding:8px 12px;border-radius:6px;text-align:center">
+                    <div style="color:var(--text-muted);font-size:0.7rem">index 0</div>
+                    <div>"A"</div>
+                  </div>
+                  <div style="background:var(--bg);padding:8px 12px;border-radius:6px;text-align:center">
+                    <div style="color:var(--text-muted);font-size:0.7rem">index 1</div>
+                    <div>"B"</div>
+                  </div>
+                  <div style="background:var(--bg);padding:8px 12px;border-radius:6px;text-align:center">
+                    <div style="color:var(--text-muted);font-size:0.7rem">index 2</div>
+                    <div>"C"</div>
+                  </div>
+                </div>
+              </div>
             </div>
             <button class="check-btn" onclick="checkMission(3)">✅ Check my work</button>
             <div class="check-result" id="result-3"></div>
@@ -599,16 +935,46 @@
               1. Set the <code>currentFilter</code> variable<br>
               2. Call <code>renderTasks()</code>
             </div>
-            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">setFilter</span>(<span class="code-target">filter</span>) {</span>
+            <div class="claude-prompt">
+              <strong>Try this with Claude Code first!</strong>
+              <div class="prompt-text">Fill in the setFilter(filter) function in playground.js. It should set currentFilter to the filter argument and call renderTasks().</div>
+              <div class="copy-hint">Copy this prompt and paste it into Claude Code. Then check the solution below!</div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Show the solution</button>
+              <div class="learn-more-content">
+                <div class="code-block" style="margin-bottom:12px"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">setFilter</span>(<span class="code-target">filter</span>) {</span>
 <span class="code-line">  currentFilter = filter;</span>
 <span class="code-line">  <span class="code-function">renderTasks</span>();</span>
 <span class="code-line">}</span></code></div>
-            <div class="annotation">
-              <div class="label">📖 That's it!</div>
-              This one is short because the filtering logic already lives inside <code>renderTasks()</code> (Section 2). When you change <code>currentFilter</code> and re-render, the function checks which tab is active and shows only matching tasks.
+                <div class="annotation" style="margin:0">
+                  <div class="label">📖 That's it!</div>
+                  This one is short because the filtering logic already lives inside <code>renderTasks()</code> (Section 2). When you change <code>currentFilter</code> and re-render, the function checks which tab is active and shows only matching tasks.
+                </div>
+              </div>
             </div>
-            <div class="claude-prompt">
-              <strong>💬 Ask Claude:</strong> "Write a setFilter(filter) function that sets currentFilter to the filter argument and calls renderTasks()."
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Variable: let vs const</button>
+              <div class="learn-more-content">
+                <code>const</code> = value never changes (like <code>tasks</code> array reference). <code>let</code> = value can change (like <code>currentFilter</code> which switches between "all", "active", "completed").
+                <div style="display:flex;gap:12px;font-size:0.82rem;margin-top:8px">
+                  <div style="flex:1;background:var(--bg);padding:8px;border-radius:6px">
+                    <div style="font-weight:600;color:var(--primary);margin-bottom:4px">const</div>
+                    <div style="color:var(--text-muted);font-size:0.8rem">Use for things that stay the same</div>
+                  </div>
+                  <div style="flex:1;background:var(--bg);padding:8px;border-radius:6px">
+                    <div style="font-weight:600;color:var(--warning);margin-bottom:4px">let</div>
+                    <div style="color:var(--text-muted);font-size:0.8rem">Use for things that change</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="learn-more">
+              <button class="learn-more-toggle" onclick="toggleLearnMore(this)">Data type: String "text"</button>
+              <div class="learn-more-content">
+                A <strong>string</strong> is text wrapped in quotes. The filter values <code>"all"</code>, <code>"active"</code>, and <code>"completed"</code> are all strings.
+                <div class="code-block" style="margin-top:8px;margin-bottom:0"><code><span class="code-line">currentFilter = <span class="code-string">"completed"</span>;  <span class="code-comment">// A string!</span></span></code></div>
+              </div>
             </div>
             <button class="check-btn" onclick="checkMission(4)">✅ Check my work</button>
             <div class="check-result" id="result-4"></div>
@@ -624,7 +990,11 @@
 
   <script>
     let currentMission = 0;
-    const missionsDone = [false, false, false, false, false];
+    let missionsDone = JSON.parse(localStorage.getItem('playgroundProgress')) || [false, false, false, false, false];
+
+    function saveProgress() {
+      localStorage.setItem('playgroundProgress', JSON.stringify(missionsDone));
+    }
 
     function showMission(i) {
       currentMission = i;
@@ -636,6 +1006,7 @@
 
     function completeMission(i) {
       missionsDone[i] = true;
+      saveProgress();
       updateProgress();
       if (i < 4) showMission(i + 1);
     }
@@ -684,6 +1055,7 @@
 
       if (pass) {
         missionsDone[i] = true;
+        saveProgress();
         updateProgress();
       }
     }
@@ -703,6 +1075,23 @@
 
     function updateMissionStatus() {}
 
+    function toggleLearnMore(btn) {
+      const container = btn.closest('.learn-more');
+      container.classList.toggle('open');
+    }
+
+    // On page load: show the mission where user left off
+    function getResumeIndex() {
+      // Find the first incomplete mission
+      for (let i = 0; i < missionsDone.length; i++) {
+        if (!missionsDone[i]) return i;
+      }
+      // If all done, show the last mission
+      return missionsDone.length - 1;
+    }
+
+    const resumeIndex = getResumeIndex();
+    showMission(resumeIndex);
     updateProgress();
   </script>
 
