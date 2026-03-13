@@ -1,104 +1,710 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Playground - JavaScript Fundamentals</title>
-    <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #4ec9b0;
-            border-bottom: 2px solid #4ec9b0;
-            padding-bottom: 10px;
-        }
-        .info {
-            background-color: #252526;
-            border-left: 4px solid #4ec9b0;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        .console-output {
-            background-color: #1e1e1e;
-            border: 1px solid #4ec9b0;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-            max-height: 400px;
-            overflow-y: auto;
-            font-size: 12px;
-        }
-        .console-output pre {
-            margin: 0;
-            color: #4ec9b0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Playground: Task Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fc;
+      --surface: #ffffff;
+      --border: #e2e6ef;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --primary: #6366f1;
+      --primary-light: #eef2ff;
+      --success: #22c55e;
+      --success-light: #f0fdf4;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+      --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header p { font-size: 0.9rem; opacity: 0.9; }
+
+    .mission-progress {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.done { background: #22c55e; }
+    .progress-dot.current { background: white; box-shadow: 0 0 0 3px rgba(255,255,255,0.4); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 24px;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tracker-body { padding: 20px; }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .input-row input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .input-row button {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .input-row button:hover { opacity: 0.9; }
+    .input-row button:active { transform: scale(0.97); }
+
+    #task-list {
+      list-style: none;
+      min-height: 60px;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+    .task-item:hover { background: var(--bg); }
+    .task-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .task-title {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    .task-item.completed .task-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: all 0.15s;
+    }
+    .task-item:hover .delete-btn { opacity: 1; }
+    .delete-btn:hover { background: #fef2f2; color: var(--danger); }
+
+    .tracker-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .filters { display: flex; gap: 4px; }
+    .filter-btn {
+      padding: 4px 12px;
+      border: none;
+      border-radius: 6px;
+      background: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover { background: var(--bg); }
+    .filter-btn.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .missions { padding: 0; }
+
+    .mission {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .mission:last-child { border-bottom: none; }
+    .mission:hover { background: var(--bg); }
+    .mission.active { background: var(--primary-light); }
+
+    .mission-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+      background: var(--surface);
+      transition: all 0.3s;
+    }
+    .mission.done .mission-icon {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    .mission.active .mission-icon {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .mission-info { flex: 1; min-width: 0; }
+    .mission-info strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .mission-info small {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .spotlight {
+      margin: 24px;
+      margin-top: 0;
+    }
+
+    .spotlight-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .spotlight-section.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .spotlight-desc {
+      padding: 14px 16px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .spotlight-desc strong { color: var(--primary); }
+
+    .code-block {
+      background: var(--code-bg);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--code-text);
+    }
+
+    .code-line { display: block; }
+    .code-line:hover { background: rgba(255,255,255,0.05); border-radius: 3px; }
+
+    .code-comment { color: #94a3b8; }
+    .code-keyword { color: #c084fc; }
+    .code-string { color: #86efac; }
+    .code-function { color: #93c5fd; }
+    .code-number { color: #fbbf24; }
+    .code-target { color: #f472b6; }
+
+    .annotation {
+      padding: 8px 12px;
+      background: var(--bg);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .annotation .label {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .claude-prompt {
+      padding: 12px 14px;
+      background: #fffbeb;
+      border: 1px dashed #f59e0b;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+    .claude-prompt strong { color: #d97706; }
+    .claude-prompt code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: rgba(0,0,0,0.06);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .check-btn {
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+    .check-btn:hover { opacity: 0.9; }
+    .check-result {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .check-result.pass { display: block; background: var(--success-light); color: #166534; }
+    .check-result.fail { display: block; background: #fef2f2; color: #991b1b; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>JS Playground - JavaScript Fundamentals</h1>
-        
-        <div class="info">
-            <h2>Welcome!</h2>
-            <p>This is your JavaScript playground. Open the browser console to see the output of your code.</p>
-            <p><strong>To see results:</strong> Press <code>F12</code> or <code>Ctrl+Shift+I</code> (Windows/Linux) or <code>Cmd+Option+I</code> (Mac) to open Developer Tools and check the Console tab.</p>
-        </div>
 
-        <div class="info">
-            <h2>What You'll Learn</h2>
-            <ul>
-                <li>Declare and use variables (const, let, var)</li>
-                <li>Write and call functions</li>
-                <li>Work with arrays and array methods (.map(), .filter(), .forEach())</li>
-                <li>Work with objects and their properties</li>
-                <li>Build a mini task tracker application</li>
-            </ul>
-        </div>
+  <header>
+    <div>
+      <h1>🎮 JavaScript Playground</h1>
+      <p>Build a Task Tracker — step by step</p>
+    </div>
+    <div class="mission-progress" id="progress">
+      <span style="font-size:0.85rem;opacity:0.8;margin-right:4px">Progress</span>
+      <div class="progress-dot current" data-i="0"></div>
+      <div class="progress-dot" data-i="1"></div>
+      <div class="progress-dot" data-i="2"></div>
+      <div class="progress-dot" data-i="3"></div>
+      <div class="progress-dot" data-i="4"></div>
+    </div>
+  </header>
 
-        <div class="info">
-            <h2>TODOs in Your Code</h2>
-            <p>Open <code>playground.js</code> and look for TODO comments. Complete each one to make the task tracker work!</p>
-            <p>The console below will show the output once you run your code.</p>
-        </div>
+  <div class="layout">
 
-        <div class="console-output">
-            <pre id="console">Loading playground.js...</pre>
+    <div>
+      <div class="card">
+        <div class="card-header">📝 My Task Tracker</div>
+        <div class="tracker-body">
+          <div class="input-row">
+            <input type="text" id="task-input" placeholder="What do you need to do?">
+            <button onclick="addTask()">Add</button>
+          </div>
+          <ul id="task-list"></ul>
         </div>
+        <div class="tracker-footer">
+          <span id="items-left">0 items left</span>
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+            <button class="filter-btn" data-filter="active" onclick="setFilter('active')">Active</button>
+            <button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">Completed</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header">🔄 How It Works</div>
+        <div style="padding:16px 20px;font-size:0.88rem;line-height:1.6">
+          <p>Every interactive app follows this pattern:</p>
+          <div style="display:flex;align-items:center;gap:8px;margin:12px 0;font-weight:600;color:var(--primary);flex-wrap:wrap">
+            <span style="background:var(--primary-light);padding:6px 12px;border-radius:6px">📦 Data changes</span>
+            <span>→</span>
+            <span style="background:var(--primary-light);padding:6px 12px;border-radius:6px">🎨 renderTasks()</span>
+            <span>→</span>
+            <span style="background:var(--primary-light);padding:6px 12px;border-radius:6px">🖥️ Screen updates</span>
+          </div>
+          <p style="color:var(--text-muted)">When you add a task, the data changes. Then <code style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;background:var(--bg);padding:1px 4px;border-radius:3px">renderTasks()</code> reads the data and redraws the list. That's it!</p>
+        </div>
+      </div>
     </div>
 
-    <script src="playground.js"></script>
-    <script>
-        // Capture console.log output to display on the page
-        const logOutput = [];
-        const originalLog = console.log;
-        
-        console.log = function(...args) {
-            logOutput.push(args.map(arg => {
-                if (typeof arg === 'object') {
-                    return JSON.stringify(arg, null, 2);
-                }
-                return String(arg);
-            }).join(' '));
-            
-            // Also show in browser console
-            originalLog.apply(console, args);
-        };
+    <div>
+      <div class="card">
+        <div class="card-header">🎯 Missions</div>
+        <div class="missions">
 
-        // Update the page with all logged output
-        setTimeout(() => {
-            document.getElementById('console').textContent = logOutput.join('\n');
-        }, 100);
-    </script>
+          <div class="mission active" onclick="showMission(0)" data-m="0">
+            <div class="mission-icon">📖</div>
+            <div class="mission-info">
+              <strong>Read the Code</strong>
+              <small>Open playground.js and explore</small>
+            </div>
+          </div>
+
+          <div class="mission" onclick="showMission(1)" data-m="1">
+            <div class="mission-icon">1</div>
+            <div class="mission-info">
+              <strong>Add Task</strong>
+              <small>Make the Add button work</small>
+            </div>
+          </div>
+
+          <div class="mission" onclick="showMission(2)" data-m="2">
+            <div class="mission-icon">2</div>
+            <div class="mission-info">
+              <strong>Toggle Complete</strong>
+              <small>Click a checkbox to mark done</small>
+            </div>
+          </div>
+
+          <div class="mission" onclick="showMission(3)" data-m="3">
+            <div class="mission-icon">3</div>
+            <div class="mission-info">
+              <strong>Delete Task</strong>
+              <small>Make the × button work</small>
+            </div>
+          </div>
+
+          <div class="mission" onclick="showMission(4)" data-m="4">
+            <div class="mission-icon">4</div>
+            <div class="mission-info">
+              <strong>Filter Tasks</strong>
+              <small>All / Active / Completed tabs</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header">📖 Code Spotlight</div>
+        <div class="spotlight">
+
+          <div class="spotlight-section visible" data-spot="0">
+            <div class="spotlight-desc">
+              <strong>Your first job: read the code!</strong> Open <code>playground.js</code> in VS Code. Don't change anything yet — just read and explore. The file has 3 sections:
+            </div>
+            <div class="annotation">
+              <div class="label">📦 Section 1 — The Data</div>
+              The <code>tasks</code> array stores all tasks. Each task is an object with <code>id</code>, <code>title</code>, and <code>completed</code>.
+            </div>
+            <div class="annotation">
+              <div class="label">🎨 Section 2 — The Display</div>
+              The <code>renderTasks()</code> function reads the data and draws the task list on screen. It's already complete — read the 📖 comments to understand each step.
+            </div>
+            <div class="annotation">
+              <div class="label">⚡ Section 3 — The Actions</div>
+              Four empty functions: <code>addTask()</code>, <code>toggleTask()</code>, <code>deleteTask()</code>, <code>setFilter()</code>. These are your missions!
+            </div>
+            <div class="code-block"><code><span class="code-line"><span class="code-comment">// 📦 THE DATA — this is where tasks live</span></span>
+<span class="code-line"><span class="code-keyword">const</span> tasks = [</span>
+<span class="code-line">  { <span class="code-target">id</span>: <span class="code-number">1</span>, <span class="code-target">title</span>: <span class="code-string">"Read Section 1"</span>, <span class="code-target">completed</span>: <span class="code-keyword">true</span> },</span>
+<span class="code-line">  { <span class="code-target">id</span>: <span class="code-number">2</span>, <span class="code-target">title</span>: <span class="code-string">"Read Section 2"</span>, <span class="code-target">completed</span>: <span class="code-keyword">false</span> },</span>
+<span class="code-line">];</span></code></div>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Once you've read all 3 sections, click the button below!</p>
+            <button class="check-btn" onclick="completeMission(0)">✅ I've read the code!</button>
+          </div>
+
+          <div class="spotlight-section" data-spot="1">
+            <div class="spotlight-desc">
+              <strong>Mission 1: Make the Add button work.</strong> Find the <code>addTask()</code> function in playground.js. It's empty! You need to fill it in.
+            </div>
+            <div class="annotation">
+              <div class="label">What it should do</div>
+              1. Get the text from the input box<br>
+              2. If empty, do nothing<br>
+              3. Add a new task to the array<br>
+              4. Clear the input<br>
+              5. Call <code>renderTasks()</code>
+            </div>
+            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">addTask</span>() {</span>
+<span class="code-line">  <span class="code-comment">// Step 1: Find the input box and get its text</span></span>
+<span class="code-line">  <span class="code-keyword">const</span> input = document.<span class="code-function">getElementById</span>(<span class="code-string">"task-input"</span>);</span>
+<span class="code-line">  <span class="code-keyword">const</span> text = input.value.<span class="code-function">trim</span>();</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Step 2: If nothing was typed, stop here</span></span>
+<span class="code-line">  <span class="code-keyword">if</span> (text === <span class="code-string">""</span>) <span class="code-keyword">return</span>;</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Step 3: Create a new task and add it to the array</span></span>
+<span class="code-line">  tasks.<span class="code-function">push</span>({ <span class="code-target">id</span>: nextId++, <span class="code-target">title</span>: text, <span class="code-target">completed</span>: <span class="code-keyword">false</span> });</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Step 4: Clear the input box</span></span>
+<span class="code-line">  input.value = <span class="code-string">""</span>;</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Step 5: Refresh the screen</span></span>
+<span class="code-line">  <span class="code-function">renderTasks</span>();</span>
+<span class="code-line">}</span></code></div>
+            <div class="annotation">
+              <div class="label">📖 Line by line</div>
+              <code>document.getElementById("task-input")</code> — finds the text box on the page<br>
+              <code>.value.trim()</code> — gets the typed text and removes extra spaces<br>
+              <code>tasks.push({...})</code> — adds a new item to the end of the array<br>
+              <code>nextId++</code> — uses the current number, then adds 1 for next time
+            </div>
+            <div class="claude-prompt">
+              <strong>💬 Ask Claude:</strong> "Write the addTask function in playground.js. It should get text from the input with id 'task-input', if empty return, otherwise push a new task to the tasks array and call renderTasks()."
+            </div>
+            <button class="check-btn" onclick="checkMission(1)">✅ Check my work</button>
+            <div class="check-result" id="result-1"></div>
+          </div>
+
+          <div class="spotlight-section" data-spot="2">
+            <div class="spotlight-desc">
+              <strong>Mission 2: Toggle tasks complete.</strong> Find the <code>toggleTask(id)</code> function. When a checkbox is clicked, this function receives the task's id.
+            </div>
+            <div class="annotation">
+              <div class="label">What it should do</div>
+              1. Find the task with the matching id<br>
+              2. Flip its completed status<br>
+              3. Call <code>renderTasks()</code>
+            </div>
+            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">toggleTask</span>(<span class="code-target">id</span>) {</span>
+<span class="code-line">  <span class="code-comment">// Find the task with this id</span></span>
+<span class="code-line">  <span class="code-keyword">const</span> task = tasks.<span class="code-function">find</span>(t => t.id === id);</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Flip: true becomes false, false becomes true</span></span>
+<span class="code-line">  task.completed = !task.completed;</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-function">renderTasks</span>();</span>
+<span class="code-line">}</span></code></div>
+            <div class="annotation">
+              <div class="label">📖 Line by line</div>
+              <code>tasks.find(t => t.id === id)</code> — searches the array for the task whose id matches<br>
+              <code>!task.completed</code> — the <code>!</code> means "not". If it was <code>true</code>, it becomes <code>false</code>, and vice versa
+            </div>
+            <div class="claude-prompt">
+              <strong>💬 Ask Claude:</strong> "Write a toggleTask(id) function that finds the task by id in the tasks array, flips task.completed, and calls renderTasks()."
+            </div>
+            <button class="check-btn" onclick="checkMission(2)">✅ Check my work</button>
+            <div class="check-result" id="result-2"></div>
+          </div>
+
+          <div class="spotlight-section" data-spot="3">
+            <div class="spotlight-desc">
+              <strong>Mission 3: Delete tasks.</strong> Find the <code>deleteTask(id)</code> function. When the × button is clicked, this receives the task's id.
+            </div>
+            <div class="annotation">
+              <div class="label">What it should do</div>
+              1. Find the position of the task in the array<br>
+              2. Remove it<br>
+              3. Call <code>renderTasks()</code>
+            </div>
+            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">deleteTask</span>(<span class="code-target">id</span>) {</span>
+<span class="code-line">  <span class="code-comment">// Find the position (index) of this task</span></span>
+<span class="code-line">  <span class="code-keyword">const</span> index = tasks.<span class="code-function">findIndex</span>(t => t.id === id);</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment">// Remove 1 item at that position</span></span>
+<span class="code-line">  tasks.<span class="code-function">splice</span>(index, <span class="code-number">1</span>);</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-function">renderTasks</span>();</span>
+<span class="code-line">}</span></code></div>
+            <div class="annotation">
+              <div class="label">📖 Line by line</div>
+              <code>tasks.findIndex(t => t.id === id)</code> — like <code>find()</code>, but returns the position number (0, 1, 2...) instead of the task itself<br>
+              <code>tasks.splice(index, 1)</code> — removes 1 item at that position. Think of it like pulling a card out of a deck.
+            </div>
+            <div class="claude-prompt">
+              <strong>💬 Ask Claude:</strong> "Write a deleteTask(id) function that finds the index of the task with that id using findIndex, removes it with splice, and calls renderTasks()."
+            </div>
+            <button class="check-btn" onclick="checkMission(3)">✅ Check my work</button>
+            <div class="check-result" id="result-3"></div>
+          </div>
+
+          <div class="spotlight-section" data-spot="4">
+            <div class="spotlight-desc">
+              <strong>Mission 4: Filter tasks.</strong> Find the <code>setFilter(filter)</code> function. When a filter tab is clicked, this receives "all", "active", or "completed".
+            </div>
+            <div class="annotation">
+              <div class="label">What it should do</div>
+              1. Set the <code>currentFilter</code> variable<br>
+              2. Call <code>renderTasks()</code>
+            </div>
+            <div class="code-block"><code><span class="code-line"><span class="code-keyword">function</span> <span class="code-function">setFilter</span>(<span class="code-target">filter</span>) {</span>
+<span class="code-line">  currentFilter = filter;</span>
+<span class="code-line">  <span class="code-function">renderTasks</span>();</span>
+<span class="code-line">}</span></code></div>
+            <div class="annotation">
+              <div class="label">📖 That's it!</div>
+              This one is short because the filtering logic already lives inside <code>renderTasks()</code> (Section 2). When you change <code>currentFilter</code> and re-render, the function checks which tab is active and shows only matching tasks.
+            </div>
+            <div class="claude-prompt">
+              <strong>💬 Ask Claude:</strong> "Write a setFilter(filter) function that sets currentFilter to the filter argument and calls renderTasks()."
+            </div>
+            <button class="check-btn" onclick="checkMission(4)">✅ Check my work</button>
+            <div class="check-result" id="result-4"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="playground.js"></script>
+
+  <script>
+    let currentMission = 0;
+    const missionsDone = [false, false, false, false, false];
+
+    function showMission(i) {
+      currentMission = i;
+      document.querySelectorAll(".spotlight-section").forEach(el => el.classList.remove("visible"));
+      document.querySelector(`[data-spot="${i}"]`).classList.add("visible");
+      document.querySelectorAll(".mission").forEach(el => el.classList.remove("active"));
+      document.querySelector(`[data-m="${i}"]`).classList.add("active");
+    }
+
+    function completeMission(i) {
+      missionsDone[i] = true;
+      updateProgress();
+      if (i < 4) showMission(i + 1);
+    }
+
+    function checkMission(i) {
+      const el = document.getElementById(`result-${i}`);
+      let pass = false;
+
+      if (i === 1) {
+        const before = tasks.length;
+        const input = document.getElementById("task-input");
+        input.value = "__test_mission_1__";
+        try { addTask(); } catch(e) {}
+        pass = tasks.length > before && tasks[tasks.length - 1].title === "__test_mission_1__";
+        if (pass) {
+          const idx = tasks.findIndex(t => t.title === "__test_mission_1__");
+          if (idx > -1) tasks.splice(idx, 1);
+          renderTasks();
+        }
+      }
+      if (i === 2) {
+        const orig = tasks[0].completed;
+        try { toggleTask(tasks[0].id); } catch(e) {}
+        pass = tasks[0].completed !== orig;
+        if (pass) { toggleTask(tasks[0].id); }
+      }
+      if (i === 3) {
+        const before = tasks.length;
+        tasks.push({ id: 9999, title: "__test__", completed: false });
+        try { deleteTask(9999); } catch(e) {}
+        pass = tasks.length === before;
+        renderTasks();
+      }
+      if (i === 4) {
+        const orig = currentFilter;
+        try { setFilter("completed"); } catch(e) {}
+        pass = currentFilter === "completed";
+        if (pass) { setFilter(orig); }
+      }
+
+      el.className = "check-result " + (pass ? "pass" : "fail");
+      el.textContent = pass
+        ? "🎉 It works! Great job! " + (i < 4 ? "Move on to the next mission →" : "You completed all missions!")
+        : "❌ Not quite yet. Check the code spotlight above for the solution, or ask Claude for help!";
+      el.style.display = "block";
+
+      if (pass) {
+        missionsDone[i] = true;
+        updateProgress();
+      }
+    }
+
+    function updateProgress() {
+      document.querySelectorAll(".progress-dot").forEach(dot => {
+        const i = parseInt(dot.dataset.i);
+        dot.classList.remove("done", "current");
+        if (missionsDone[i]) dot.classList.add("done");
+        else if (i === currentMission) dot.classList.add("current");
+      });
+      document.querySelectorAll(".mission").forEach(m => {
+        const i = parseInt(m.dataset.m);
+        m.classList.toggle("done", missionsDone[i]);
+      });
+    }
+
+    function updateMissionStatus() {}
+
+    updateProgress();
+  </script>
+
 </body>
 </html>

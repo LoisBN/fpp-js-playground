@@ -1,139 +1,196 @@
-// ============================================
-// JS Playground - JavaScript Fundamentals
-// ============================================
-// Practice variables, functions, arrays, and objects
-// by building a mini task tracker.
+// =============================================
+// 🎮 TASK TRACKER — Your JavaScript Playground
+// =============================================
+//
+// Welcome! This file has 3 sections:
+//
+//   📦 SECTION 1: THE DATA      (where tasks are stored)
+//   🎨 SECTION 2: THE DISPLAY   (how tasks appear on screen)
+//   ⚡ SECTION 3: THE ACTIONS   (what happens when you click)
+//
+// 📖 Lines with 📖 are for you to READ and understand
+// 🎯 Lines with 🎯 are YOUR MISSIONS — complete them!
+//
+// TIP: Use Claude to help you complete each mission!
+//      Just describe what the function should do.
+//
+// =============================================
 
-// ============================================
-// 1. VARIABLES AND DATA
-// ============================================
 
-// TODO: Declare a variable for the user name (string)
-const userName = "Student";
+// =============================================
+// 📦 SECTION 1: THE DATA
+// =============================================
 
-// TODO: Declare a variable for the total tasks (number)
-const totalTasks = 0;
-
-// TODO: Declare a variable for tracking if tasks are synced (boolean)
-let isTasksSynced = true;
-
-// Sample tasks array - each task is an object with properties
+// 📖 This is an "array" (a list) of "objects" (labeled containers).
+//    Each task has three properties:
+//      - id: a unique number so we can find it later
+//      - title: the text that shows on screen
+//      - completed: true means done, false means not done
 const tasks = [
-    {
-        id: 1,
-        title: "Learn JavaScript variables",
-        completed: false,
-        priority: "high"
-    },
-    {
-        id: 2,
-        title: "Practice array methods",
-        completed: true,
-        priority: "high"
-    },
-    {
-        id: 3,
-        title: "Build a task tracker",
-        completed: false,
-        priority: "medium"
-    }
+  { id: 1, title: "Read Section 1 of playground.js", completed: true },
+  { id: 2, title: "Read Section 2 of playground.js", completed: false },
+  { id: 3, title: "Complete Mission 1: Add Task", completed: false },
 ];
 
-// ============================================
-// 2. FUNCTIONS
-// ============================================
+// 📖 This tracks which filter tab is selected: "all", "active", or "completed"
+let currentFilter = "all";
 
-// TODO: Complete the formatTask function
-// It should return a string formatted like: "[ ] Task title (priority)"
-// If the task is completed, the checkbox should be "[x]" instead
-function formatTask(task) {
-    const checkbox = task.completed ? "[x]" : "[ ]";
-    // TODO: Build and return the formatted string
-    return `${checkbox} ${task.title} (${task.priority})`;
+// 📖 Every new task needs a unique id. We start at 4 (since we already have 1, 2, 3)
+let nextId = 4;
+
+
+// =============================================
+// 🎨 SECTION 2: THE DISPLAY
+// =============================================
+
+// 📖 This is the MOST IMPORTANT function in the whole file.
+//    It takes the tasks array and SHOWS them on the page.
+//
+//    The pattern is:  DATA changes → call renderTasks() → SCREEN updates
+//
+//    Every time you add, delete, or toggle a task, you call this function.
+
+function renderTasks() {
+
+  // 📖 Step 1: FIND the <ul> element where tasks are displayed
+  //    document.getElementById("task-list") says:
+  //    "Hey browser, find me the element with id='task-list'"
+  const taskList = document.getElementById("task-list");
+
+  // 📖 Step 2: FILTER the tasks based on the current tab
+  //    If "all" is selected, show everything
+  //    If "active" is selected, show only tasks where completed === false
+  //    If "completed" is selected, show only tasks where completed === true
+  let filtered = tasks;
+  if (currentFilter === "active") {
+    filtered = tasks.filter(task => task.completed === false);
+  } else if (currentFilter === "completed") {
+    filtered = tasks.filter(task => task.completed === true);
+  }
+
+  // 📖 Step 3: BUILD the HTML for each task
+  //    .map() transforms each task object into an HTML string
+  //    The browser then renders these strings as visible elements
+  taskList.innerHTML = filtered.map(task => `
+    <li class="task-item ${task.completed ? "completed" : ""}" data-id="${task.id}">
+      <input
+        type="checkbox"
+        ${task.completed ? "checked" : ""}
+        onchange="toggleTask(${task.id})"
+      >
+      <span class="task-title">${task.title}</span>
+      <button class="delete-btn" onclick="deleteTask(${task.id})">×</button>
+    </li>
+  `).join("");
+
+  // 📖 Step 4: UPDATE the "X items left" counter
+  const activeCount = tasks.filter(t => !t.completed).length;
+  document.getElementById("items-left").textContent =
+    `${activeCount} item${activeCount !== 1 ? "s" : ""} left`;
+
+  // 📖 Step 5: HIGHLIGHT the active filter tab
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === currentFilter);
+  });
+
+  // (This updates the mission panel — don't worry about this line)
+  if (typeof updateMissionStatus === "function") updateMissionStatus();
 }
 
-// TODO: Complete the getCompletedTasks function
-// It should return an array of only completed tasks
-function getCompletedTasks(tasks) {
-    // TODO: Use the .filter() method to return only completed tasks
-    return tasks.filter(task => task.completed);
+
+// =============================================
+// ⚡ SECTION 3: THE ACTIONS
+// =============================================
+// These functions run when the user clicks something.
+// YOUR JOB: Complete each mission below!
+
+
+// ─────────────────────────────────────────────
+// 🎯 MISSION 1: ADD A NEW TASK
+// ─────────────────────────────────────────────
+// When the user types a name and clicks "Add", this should:
+//   1. Get the text from the input box
+//   2. If the text is empty, stop (do nothing)
+//   3. Create a new task object and add it to the tasks array
+//   4. Clear the input box
+//   5. Call renderTasks() to refresh the screen
+//
+// 💬 Ask Claude:
+//    "Write the addTask function. It should get text from the
+//     input with id 'task-input'. If empty, return. Otherwise
+//     push a new object { id: nextId++, title: text, completed: false }
+//     to the tasks array, clear the input, and call renderTasks()."
+
+function addTask() {
+  // 🎯 YOUR CODE HERE
+
 }
 
-// TODO: Complete the addTask function
-// It should add a new task to the tasks array and return the updated array
-function addTask(tasks, title, priority = "medium") {
-    const newTask = {
-        id: tasks.length + 1,
-        title: title,
-        completed: false,
-        priority: priority
-    };
-    // TODO: Add the new task to the array and return it
-    tasks.push(newTask);
-    return tasks;
+
+// ─────────────────────────────────────────────
+// 🎯 MISSION 2: TOGGLE A TASK (done / not done)
+// ─────────────────────────────────────────────
+// When the user clicks a checkbox, this receives the task's id and should:
+//   1. Find the task in the array that has this id
+//   2. Flip its completed status (true → false, or false → true)
+//   3. Call renderTasks() to refresh the screen
+//
+// 💬 Ask Claude:
+//    "Write a toggleTask(id) function. It should find the task
+//     in the tasks array where task.id === id, flip task.completed
+//     with !task.completed, then call renderTasks()."
+
+function toggleTask(id) {
+  // 🎯 YOUR CODE HERE
+
 }
 
-// TODO: Complete the getTasksCountByPriority function
-// It should return an object with counts of tasks by priority
-// Example: { high: 2, medium: 1, low: 0 }
-function getTasksCountByPriority(tasks) {
-    // TODO: Use .reduce() to count tasks by priority
-    return tasks.reduce((counts, task) => {
-        counts[task.priority] = (counts[task.priority] || 0) + 1;
-        return counts;
-    }, {});
+
+// ─────────────────────────────────────────────
+// 🎯 MISSION 3: DELETE A TASK
+// ─────────────────────────────────────────────
+// When the user clicks ×, this receives the task's id and should:
+//   1. Find the position (index) of the task with this id
+//   2. Remove it from the array
+//   3. Call renderTasks() to refresh the screen
+//
+// 💬 Ask Claude:
+//    "Write a deleteTask(id) function. It should find the index
+//     of the task with that id using findIndex, remove it with
+//     splice, then call renderTasks()."
+
+function deleteTask(id) {
+  // 🎯 YOUR CODE HERE
+
 }
 
-// ============================================
-// 3. ARRAY METHODS PRACTICE
-// ============================================
 
-// TODO: Use .forEach() to print each task in a formatted way
-console.log("--- All Tasks ---");
-tasks.forEach(task => {
-    console.log(formatTask(task));
+// ─────────────────────────────────────────────
+// 🎯 MISSION 4: FILTER TASKS
+// ─────────────────────────────────────────────
+// When the user clicks a filter tab, this receives the filter name and should:
+//   1. Set the currentFilter variable to the new filter
+//   2. Call renderTasks() to refresh the screen
+//
+// 💬 Ask Claude:
+//    "Write a setFilter(filter) function. It should set
+//     currentFilter = filter, then call renderTasks()."
+
+function setFilter(filter) {
+  // 🎯 YOUR CODE HERE
+
+}
+
+
+// =============================================
+// 🚀 START THE APP
+// =============================================
+
+// 📖 When the page loads, show the initial tasks
+renderTasks();
+
+// 📖 Also listen for the Enter key in the input box
+//    so users can press Enter instead of clicking "Add"
+document.getElementById("task-input").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") addTask();
 });
-
-// TODO: Use .map() to get an array of just the task titles
-const taskTitles = tasks.map(task => task.title);
-console.log("\n--- Task Titles ---");
-console.log(taskTitles);
-
-// TODO: Use .filter() to get only high-priority tasks
-const highPriorityTasks = tasks.filter(task => task.priority === "high");
-console.log("\n--- High Priority Tasks ---");
-highPriorityTasks.forEach(task => {
-    console.log(formatTask(task));
-});
-
-// ============================================
-// 4. OBJECT METHODS PRACTICE
-// ============================================
-
-// TODO: Get the keys of the first task object
-const taskKeys = Object.keys(tasks[0]);
-console.log("\n--- First Task Keys ---");
-console.log(taskKeys);
-
-// TODO: Get the values of the first task object
-const taskValues = Object.values(tasks[0]);
-console.log("\n--- First Task Values ---");
-console.log(taskValues);
-
-// ============================================
-// 5. TEST YOUR FUNCTIONS
-// ============================================
-
-// Test addTask
-console.log("\n--- Adding a New Task ---");
-addTask(tasks, "Complete the JS playground", "high");
-console.log(`Total tasks: ${tasks.length}`);
-
-// Test getCompletedTasks
-console.log("\n--- Completed Tasks ---");
-const completedTasks = getCompletedTasks(tasks);
-console.log(`Completed: ${completedTasks.length} of ${tasks.length}`);
-
-// Test getTasksCountByPriority
-console.log("\n--- Tasks by Priority ---");
-console.log(getTasksCountByPriority(tasks));

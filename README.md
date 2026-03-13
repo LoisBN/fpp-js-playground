@@ -1,61 +1,52 @@
-# JavaScript Task Tracker — JS Fundamentals
+# 🎮 JavaScript Playground: Task Tracker
 
-Build a task tracker to practice JavaScript variables, arrays, functions, and DOM manipulation.
+A visual, guided exercise to learn JavaScript by building a task tracker — step by step.
 
-## What You'll Learn
-
-- Variables and data types
-- Arrays and objects
-- Functions and event handling
-- DOM manipulation (creating and updating HTML from JS)
-- Array methods: `.push()`, `.filter()`, `.map()`
-
-## Tech Stack
-
-- **HTML** — page structure
-- **CSS** — styling
-- **JavaScript** — interactivity and logic
-
-## Getting Started
+## Quick Start
 
 ```bash
-# 1. Clone this repo
 git clone https://github.com/LoisBN/fpp-js-playground.git
 cd fpp-js-playground
-
-# 2. Open in your browser
-# Option A: Right-click index.html → Open With → your browser
-# Option B: Use the Live Server extension in VS Code (click "Go Live")
 ```
 
-No `npm install` needed — this is a pure HTML/JS project!
+Open `index.html` in your browser. **No npm needed — just double-click the file!**
 
-## Project Structure
+## How It Works
 
-```
-fpp-js-playground/
-├── index.html       ← Page layout with input and task list area
-└── playground.js    ← Your JavaScript code (edit this!)
-```
+The page has two sides:
 
-## Your Exercise Tasks
+- **Left**: The actual Task Tracker app you're building
+- **Right**: A Mission Guide that walks you through each step
 
-See the exercise instructions on the course platform. The short version:
+## Your Missions
 
-1. Open the project and explore the starter code
-2. Create a tasks array and a function to render tasks
-3. Add new tasks from the input field
-4. Toggle task completion on click
-5. Add filter buttons (All / Active / Completed)
+| # | Mission | What you'll learn |
+|---|---------|-------------------|
+| 📖 | Read the Code | How JavaScript files are structured |
+| 1 | Add Task | Getting input, pushing to arrays, calling functions |
+| 2 | Toggle Complete | Finding items in arrays, flipping booleans |
+| 3 | Delete Task | Finding indexes, removing items with splice |
+| 4 | Filter Tasks | Changing a variable to control what's displayed |
 
-## Hints
+## The File You'll Edit
 
-- Open DevTools (F12) → Console tab to see `console.log` output
-- Store tasks as objects: `{ id: 1, text: "Learn JS", completed: false }`
-- Toggle a boolean: `task.completed = !task.completed`
-- Use `.filter()` to show only active or completed tasks
-- After any data change, call your render function to update the page
+All your work happens in **`playground.js`**. It has 3 sections:
 
----
+- **📦 Section 1: The Data** — where tasks are stored (already complete)
+- **🎨 Section 2: The Display** — how tasks appear on screen (already complete)
+- **⚡ Section 3: The Actions** — what happens when you click (**your missions!**)
 
-Built for [AI Code Academy](https://aicode-academy.com) — From Prompt to Production course.
+## Using Claude
+
+For each mission, you can ask Claude to write the code for you. The Mission Guide shows exactly what to ask. But **read the code Claude writes** — the Code Spotlight explains each line so you understand what's happening.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| Nothing happens when I click Add | Check that `addTask()` has code inside it (Mission 1) |
+| Page is blank | Make sure `index.html` and `playground.js` are in the same folder |
+| Changes don't show | Save the file in VS Code, then refresh the browser (Ctrl+R) |
+
+> **Windows users:** If you get a "running scripts is disabled" error, open PowerShell as Admin and run:
+> `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
