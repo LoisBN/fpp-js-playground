@@ -123,17 +123,7 @@ function renderTasks() {
 
 function addTask() {
   // 🎯 YOUR CODE HERE
-    // Step 1: Find the input box and get its text
-const input = document.getElementById("task-input");
-const text = input.value.trim();
-// Step 2: If nothing was typed, stop here
-if (text === "") return;
-// Step 3: Create a new task and add it to the array
-tasks.push({ id: nextId++, title: text, completed: false });
-// Step 4: Clear the input box
-input.value = "";
-// Step 5: Refresh the screen
-renderTasks();
+  // Step 1: Find the input box and get its text
 
 }
 
@@ -153,11 +143,6 @@ renderTasks();
 
 function toggleTask(id) {
   // 🎯 YOUR CODE HERE
-    const task = tasks.find(t => t.id === id);
-
-    task.completed = !task.completed;
-
-    renderTasks();
 }
 
 
@@ -177,10 +162,6 @@ function toggleTask(id) {
 function deleteTask(id) {
   // 🎯 YOUR CODE HERE
 // Find the position (index) of this task
-const index = tasks.findIndex(t => t.id === id);
-// Remove 1 item at that position
-tasks.splice(index, 1);
-renderTasks();
 }
 
 
@@ -197,9 +178,6 @@ renderTasks();
 
 function setFilter(filter) {
   // 🎯 YOUR CODE HERE
-  currentFilter = filter;
-renderTasks();
-
 }
 
 
