@@ -4,8 +4,11 @@ A task tracker with a beautiful UI and dead buttons. Your job: write the JavaScr
 
 ## Quick Start
 
+**1. Fork this repo** — Click the **Fork** button at the top right of this page.
+
+**2. Clone your fork:**
 ```bash
-git clone https://github.com/LoisBN/fpp-js-playground.git
+git clone https://github.com/YOUR-GITHUB-USERNAME/fpp-js-playground.git
 cd fpp-js-playground
 ```
 
